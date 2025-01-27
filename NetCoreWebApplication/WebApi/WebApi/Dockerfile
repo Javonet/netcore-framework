@@ -1,12 +1,5 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -27,5 +20,16 @@ RUN dotnet publish "./WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY jcg /usr/app/jcg
+RUN chmod +x /usr/app/jcg
 
-ENTRYPOINT ["dotnet", "WebApi.dll"]
+# Switch to root user to install libraries
+USER root
+RUN apt-get update && \
+    apt-get install -y libxml2-dev openssl libxmlsec1-dev libxmlsec1-openssl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+EXPOSE 8080
+
+CMD ["/usr/app/jcg", "--licenseKey", "n9B5-Km7g-Pp69-j9FE-e9A5", "--runtime", "netcore", "--modules", "WebApi.dll"]
