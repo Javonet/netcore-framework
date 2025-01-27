@@ -1,0 +1,26 @@
+{
+  "licenseKey": "...",
+  "loggingLevel": "runtimeInfo",
+  "runtimes": {
+    "netcore": [
+      {
+        "name": "default",
+        "customOptions": "",
+        "modules": "",
+        "channel": {
+          "type": "inMemory"
+        }
+      },
+      {
+        "name": "dockerimage",
+        "customOptions": "",
+        "modules": "",
+        "channel": {
+          "type": "tcp",
+          "host": "localhost",
+          "port": 32768
+        }
+      }
+    ]
+  }
+}
