@@ -32,4 +32,4 @@ RUN apt-get update && \
 
 EXPOSE 8080
 
-CMD ["/usr/app/jcg", "--licenseKey", "n9B5-Km7g-Pp69-j9FE-e9A5", "--runtime", "netcore", "--modules", "WebApi.dll"]
+CMD ["/usr/app/jcg", "--licenseKey", "your-license-key", "--runtime", "netcore", "--modules", "WebApi.dll"]
